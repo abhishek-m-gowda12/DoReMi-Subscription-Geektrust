@@ -1,6 +1,6 @@
 package com.abhishek.factory;
 
-import com.abhishek.domain.SubscriptionTime;
+import com.abhishek.modal.SubscriptionTime;
 import com.abhishek.enums.SubscriptionCategory;
 import com.abhishek.enums.SubscriptionPlan;
 import com.abhishek.exceptions.ErrorCodes;

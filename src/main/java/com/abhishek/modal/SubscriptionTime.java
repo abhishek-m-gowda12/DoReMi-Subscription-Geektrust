@@ -1,4 +1,4 @@
-package com.abhishek.domain;
+package com.abhishek.modal;
 
 import java.math.BigDecimal;
 

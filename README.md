@@ -1,6 +1,6 @@
 # DoReMi-Subscription-Geektrust
 
-* Machine Coding Problem Statement:  https://www.geektrust.com/challenge/doremi-subscription .
+* Machine Coding Problem Statement:  https://www.geektrust.com/challenge/doremi-subscriptionDetail .
 
 # Pre-requisites
 * Java 1.8
