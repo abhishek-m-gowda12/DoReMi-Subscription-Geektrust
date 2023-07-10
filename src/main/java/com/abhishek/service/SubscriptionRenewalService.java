@@ -1,10 +1,10 @@
 package com.abhishek.service;
 
-import com.abhishek.domain.SubscriptionDetails;
+import com.abhishek.modal.SubscriptionDetail;
 
 /**
  * @author abhishek-m-gowda12
  */
 public interface SubscriptionRenewalService {
-    void generateRenewalPlan(SubscriptionDetails subscriptionDetails);
+    void generateRenewalPlan(SubscriptionDetail subscriptionDetail);
 }

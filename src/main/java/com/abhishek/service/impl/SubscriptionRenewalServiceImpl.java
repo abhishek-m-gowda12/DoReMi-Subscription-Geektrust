@@ -1,7 +1,7 @@
 package com.abhishek.service.impl;
 
-import com.abhishek.domain.SubscriptionDetails;
-import com.abhishek.domain.SubscriptionTime;
+import com.abhishek.modal.SubscriptionDetail;
+import com.abhishek.modal.SubscriptionTime;
 import com.abhishek.enums.SubscriptionCategory;
 import com.abhishek.enums.SubscriptionPlan;
 import com.abhishek.factory.SubscriptionAmountFactory;
@@ -17,29 +17,38 @@ import java.util.Objects;
  */
 public class SubscriptionRenewalServiceImpl implements SubscriptionRenewalService {
 
-    public void generateRenewalPlan(SubscriptionDetails subscriptionDetails) {
+    public void generateRenewalPlan(SubscriptionDetail subscriptionDetail) {
         BigDecimal renewalAmount = BigDecimal.ZERO;
 
-        if (subscriptionDetails.getSubscriptionDetails() != null && !subscriptionDetails.getSubscriptionDetails().isEmpty()) {
-            for (Map.Entry<SubscriptionPlan, SubscriptionCategory> subscriptionInfo : subscriptionDetails.getSubscriptionDetails().entrySet()) {
+        if (subscriptionDetail.getSubscriptionDetails() != null && !subscriptionDetail.getSubscriptionDetails().isEmpty()) {
+            for (Map.Entry<SubscriptionPlan, SubscriptionCategory> subscriptionInfo : subscriptionDetail.getSubscriptionDetails().entrySet()) {
                 SubscriptionAmountFactory subscriptionAmountFactory = SubscriptionAmountFactory.getSubscriptionAmountFactoryInstance(subscriptionInfo.getKey(), subscriptionInfo.getValue());
                 SubscriptionTime subscriptionTime = subscriptionAmountFactory.getSubscriptionTime();
 
-                System.out.println(subscriptionInfo.getKey().toString() + " " + DateUtils.addMonthsAndGetAsString(subscriptionDetails.getSubscriptionStartDate(), subscriptionTime.getTime()));
+                System.out.println("RENEWAL_REMINDER " + subscriptionInfo.getKey().toString() + " " + DateUtils.addMonthsAndGetAsString(subscriptionDetail.getSubscriptionStartDate(), subscriptionTime.getTime()));
 
-                if (subscriptionDetails.isPrintRenewalDetails() && (!Objects.equals(subscriptionTime.getAmount(), BigDecimal.ZERO))) {
+                if (subscriptionDetail.isPrintRenewalDetails() && (!Objects.equals(subscriptionTime.getAmount(), BigDecimal.ZERO))) {
                     renewalAmount = renewalAmount.add(subscriptionTime.getAmount());
                 }
             }
+            int topUpAmount = getTopUpDetails(subscriptionDetail);
+            renewalAmount = renewalAmount.add(BigDecimal.valueOf(topUpAmount));
 
-            if (subscriptionDetails.getTopupDetail() != null) {
-                int topUpAmount = subscriptionDetails.getSubscriptionDetails().size() * subscriptionDetails.getTopupDetail().getTopUp().getAmount();
-                renewalAmount = renewalAmount.add(BigDecimal.valueOf(topUpAmount));
-            }
+            printRenewalAmount(subscriptionDetail, renewalAmount);
+        }
+    }
 
-            if (subscriptionDetails.isPrintRenewalDetails()) {
-                System.out.println("RENEWAL_AMOUNT " + renewalAmount);
-            }
+    private int getTopUpDetails(SubscriptionDetail subscriptionDetail) {
+        int topUpAmount = 0;
+        if (subscriptionDetail.getTopUpDetail() != null) {
+            topUpAmount = subscriptionDetail.getTopUpDetail().getMonth() * subscriptionDetail.getTopUpDetail().getTopUp().getAmount();
+        }
+        return topUpAmount;
+    }
+
+    private void printRenewalAmount(SubscriptionDetail subscriptionDetail, BigDecimal renewalAmount) {
+        if (subscriptionDetail.isPrintRenewalDetails()) {
+            System.out.println("RENEWAL_AMOUNT " + renewalAmount);
         }
     }
 }

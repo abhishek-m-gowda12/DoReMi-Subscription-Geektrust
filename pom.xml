@@ -4,32 +4,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.abhishek</groupId>
-    <artifactId>DoReMi-Subscription-Geektrust</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>geektrust</artifactId>
+    <version>1.0</version>
     <name>DoReMi-Subscription-Geektrust</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <finalName>DoReMiSubscriptionGeektrustApplication</finalName> <!-- Please do not change this final artifact name-->
+                    <finalName>geektrust</finalName> <!-- Please do not change this final artifact name-->
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
@@ -52,6 +55,65 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.5.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <!-- Code coverage plugin. Use only if you are adding unit tests. Do not change any of the values in the entries below -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/com/abhishek/modal/*</exclude>
+                        <exclude>**/com/abhishek/DoReMiSubscriptionGeektrustApplication.class</exclude>
+                        <exclude>**/com/abhishek/modal/**/*</exclude>
+                        <exclude>**/com/abhishek/exceptions/**/*</exclude>
+                        <exclude>**/com/abhishek/factory/**/*</exclude>
+                        <exclude>**/com/abhishek/utils/**/*</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <formats><format>XML</format></formats>
+                            <outputDirectory>./</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

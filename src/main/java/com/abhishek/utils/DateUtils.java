@@ -28,6 +28,7 @@ public class DateUtils {
 
     public static String addMonthsAndGetAsString(LocalDate localDate, int months) {
         LocalDate localDateCopy = localDate.plusMonths(months);
+        localDateCopy = localDateCopy.minusDays(10);
         return localDateCopy.format(formatter);
     }
 }
