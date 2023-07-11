@@ -4,6 +4,7 @@ import com.abhishek.enums.SubscriptionCategory;
 import com.abhishek.enums.SubscriptionPlan;
 
 import java.time.LocalDate;
+import java.util.EnumMap;
 import java.util.Map;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 public class SubscriptionDetail {
     private LocalDate subscriptionStartDate;
-    private Map<SubscriptionPlan, SubscriptionCategory> subscriptionDetails;
+    private Map<SubscriptionPlan, SubscriptionCategory> subscriptionDetails = new EnumMap<>(SubscriptionPlan.class);
     private TopUpDetail topUpDetail;
     private boolean isPrintRenewalDetails;
 
