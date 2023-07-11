@@ -10,10 +10,9 @@ public class DoReMiSubscriptionGeektrustApplication {
 
     public static void main(String[] args) {
         try {
+            SubscriptionManagementSystem subscriptionManagementSystem = new SubscriptionManagementSystem();
             FileProcessorService fileProcessorService = new FileProcessorService(args[0]);
             List<Command> commandList = fileProcessorService.processLine();
-
-            SubscriptionManagementSystem subscriptionManagementSystem = new SubscriptionManagementSystem();
 
             for (Command command : commandList) {
                 subscriptionManagementSystem.fulfillCommand(command);
