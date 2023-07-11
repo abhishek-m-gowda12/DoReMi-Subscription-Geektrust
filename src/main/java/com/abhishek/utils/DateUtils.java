@@ -18,13 +18,13 @@ public class DateUtils {
     private static final DateValidatorUsingLocalDate VALIDATOR_USING_LOCAL_DATE = new DateValidatorUsingLocalDate(formatter);
 
     public static LocalDate getLocalDateFromString(String date) {
-        boolean isValidDate = VALIDATOR_USING_LOCAL_DATE.isValid(date);
-        if (!isValidDate) {
-            throw new InvalidDateException("INVALID_DATE \n" +
-                    "ADD_SUBSCRIPTION_FAILED INVALID_DATE", ErrorCodes.INVALID_DATE_EXCEPTION);
-        }
         return LocalDate.parse(date, formatter);
     }
+
+    public static boolean validateDate(String date) {
+        return VALIDATOR_USING_LOCAL_DATE.isValid(date);
+    }
+
 
     public static String addMonthsAndGetAsString(LocalDate localDate, int months) {
         LocalDate localDateCopy = localDate.plusMonths(months);

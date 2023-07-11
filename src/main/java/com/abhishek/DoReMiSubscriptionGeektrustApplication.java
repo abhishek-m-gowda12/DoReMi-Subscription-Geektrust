@@ -1,32 +1,25 @@
 package com.abhishek;
 
-import com.abhishek.modal.SubscriptionDetail;
-import com.abhishek.exceptions.DuplicateSubscriptionException;
-import com.abhishek.exceptions.DuplicateTopUpException;
-import com.abhishek.exceptions.InvalidDateException;
-import com.abhishek.exceptions.SubscriptionNotFoundException;
+import com.abhishek.modal.Command;
 import com.abhishek.service.FileProcessorService;
-import com.abhishek.service.SubscriptionRenewalService;
-import com.abhishek.service.impl.SubscriptionRenewalServiceImpl;
+import com.abhishek.service.impl.SubscriptionManagementSystem;
+
+import java.util.List;
 
 public class DoReMiSubscriptionGeektrustApplication {
 
     public static void main(String[] args) {
         try {
             FileProcessorService fileProcessorService = new FileProcessorService(args[0]);
-            SubscriptionDetail subscriptionDetail = fileProcessorService.processLine();
+            List<Command> commandList = fileProcessorService.processLine();
 
-            SubscriptionRenewalService subscriptionRenewalServiceImpl = new SubscriptionRenewalServiceImpl();
-            subscriptionRenewalServiceImpl.generateRenewalPlan(subscriptionDetail);
-        } catch (
-                DuplicateTopUpException |
-                SubscriptionNotFoundException |
-                DuplicateSubscriptionException |
-                InvalidDateException e) {
-            System.out.println(e.getMessage());
+            SubscriptionManagementSystem subscriptionManagementSystem = new SubscriptionManagementSystem();
+
+            for (Command command : commandList) {
+                subscriptionManagementSystem.fulfillCommand(command);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
-
 }
